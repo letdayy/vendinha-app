@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function StockScreen({ navigation }) {
+export default function StockScreen({ navigation, route }) {
   const [products, setProducts] = useState([
-    { id: '1', name: 'Arroz 5kg', amount: 10, price: 25.90 },
-    { id: '2', name: 'Feijão 1kg', amount: 15, price: 7.50 },
-    { id: '3', name: 'Óleo 900ml', amount: 8, price: 9.99 },
-    { id: '4', name: 'Açúcar 1kg', amount: 20, price: 4.20 },
+    { id: '1', name: 'Arroz 5kg', quantity: 10, price: 25.90 },
+    { id: '2', name: 'Feijão 1kg', quantity: 15, price: 7.50 },
+    { id: '3', name: 'Óleo 900ml', quantity: 8, price: 9.99 },
+    { id: '4', name: 'Açúcar 1kg', quantity: 20, price: 4.20 },
   ]);
+
+  useEffect(() => {
+    if (route.params?.newProduct) {
+      const newProduct = route.params.newProduct;
+      setProducts((prevProducts) => [
+        ...prevProducts,
+        { ...newProduct, id: (prevProducts.length + 1).toString() },
+      ]);
+    }
+  }, [route.params?.newProduct]);
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <Text style={styles.name}>{item.name}</Text>
-      <Text>Quantidade: {item.amount}</Text>
-      <Text>Preço: R$ {item.price.toFixed(2)}</Text>
+      <Text>Quantidade: {item.quantity}</Text>
+      <Text>Preço: R$ {parseFloat(item.price).toFixed(2)}</Text>
     </View>
   );
 
@@ -25,7 +35,10 @@ export default function StockScreen({ navigation }) {
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
       />
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Adicionar Produto')}>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={() => navigation.navigate('Add Product')}
+      >
         <Text style={styles.buttonText} >➕ Adicionar Produto</Text>
       </TouchableOpacity>
     </View>

@@ -18,12 +18,11 @@ export default function AddProductScreen({ navigation }) {
         price,
     };
 
-    Alert.alert('Produto Adicionado!', `Nome: ${name}\nQuantidade: ${quantity}\nPreço: R$ ${price}`);
+    navigation.navigate('Stock',  {newProduct});
 
     setName('');
     setQuantity('');
     setPrice('');
-    navigation.goBack();
   };
 
   return (

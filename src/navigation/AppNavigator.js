@@ -10,8 +10,8 @@ export default function AppNavigator() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="Estoque" component={StockScreen} />
-                <Stack.Screen name="Adicionar Produto" component={AddProductScreen} />
+                <Stack.Screen name="Stock" component={StockScreen} />
+                <Stack.Screen name="Add Product" component={AddProductScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
