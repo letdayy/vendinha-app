@@ -12,6 +12,8 @@ export default function StockScreen({ navigation, route }) {
   useEffect(() => {
     const addNewProduct = async () => {
       if (route.params?.newProduct) {
+        setProducts(route.params.updatedProducts);
+        
         try {
           const storedProducts = await AsyncStorage.getItem('products');
           const existingProducts = storedProducts ? JSON.parse(storedProducts) : [];
@@ -73,7 +75,15 @@ export default function StockScreen({ navigation, route }) {
   };
 
   const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('Edit Product', {
+          product: item,
+          products: products,
+        })
+      }
+    >
+      <View style={styles.itemContainer}>
       <Text style={styles.name}>{item.name}</Text>
       <Text>Quantidade: {item.quantity}</Text>
       <Text>Preço: R$ {parseFloat(item.price).toFixed(2)}</Text>
@@ -84,7 +94,8 @@ export default function StockScreen({ navigation, route }) {
         >
           <Text style={styles.deleteButtonText}>🗑️ Excluir</Text>
         </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
