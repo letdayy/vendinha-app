@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function StockScreen({ navigation, route }) {
@@ -53,11 +53,37 @@ export default function StockScreen({ navigation, route }) {
     }
   };
 
+  const handleDeleteProduct = (productId) => {
+    Alert.alert(
+      'Excluir Produto',
+      'Tem certeza que deseja excluir este produto?',
+      [
+        { text: 'Cancelar', style: 'cancel'},
+        {
+          text:'Excluir',
+          style: 'destructive',
+          onPress: () => {
+            const updatedProducts = products.filter((product) => product.id !== productId);
+            setProducts(updatedProducts);
+            saveProducts(updatedProducts);
+          },
+        },
+      ]
+    );
+  };
+
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <Text style={styles.name}>{item.name}</Text>
       <Text>Quantidade: {item.quantity}</Text>
       <Text>Preço: R$ {parseFloat(item.price).toFixed(2)}</Text>
+
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={() => handleDeleteProduct(item.id)}
+        >
+          <Text style={styles.deleteButtonText}>🗑️ Excluir</Text>
+        </TouchableOpacity>
     </View>
   );
 
@@ -70,10 +96,10 @@ export default function StockScreen({ navigation, route }) {
         renderItem={renderItem}
       />
       <TouchableOpacity 
-        style={styles.button} 
+        style={styles.addButton} 
         onPress={() => navigation.navigate('Add Product')}
       >
-        <Text style={styles.buttonText} >➕ Adicionar Produto</Text>
+        <Text style={styles.addButtonText} >➕ Adicionar Produto</Text>
       </TouchableOpacity>
     </View>
   );
@@ -102,7 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  button: {
+  addButton: {
     backgroundColor: '#4CAF50',
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -111,9 +137,20 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 30,
   },
-  buttonText: {
+  addButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
   },
+  deleteButton: {
+    marginTop: 10,
+    backgroundColor: '#e74c3c',
+    paddingVertical: 8,
+    borderRadius: 6,
+    alignItems: 'center',
+  },
+  deleteButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  }
 });
