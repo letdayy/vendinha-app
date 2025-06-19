@@ -3,19 +3,25 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 
 export default function AddProductScreen({ navigation }) {
   const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
+  const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
 
   const handleSave = () => {
-    if (!name || !amount || !price) {
+    if (!name || !quantity || !price) {
       Alert.alert('Atenção', 'Por favor, preencha todos os campos.');
       return;
     }
 
-    Alert.alert('Produto Adicionado!', `Nome: ${name}\nQuantidade: ${amount}\nPreço: R$ ${price}`);
+    const newProduct = {
+        name,
+        quantity,
+        price,
+    };
+
+    Alert.alert('Produto Adicionado!', `Nome: ${name}\nQuantidade: ${quantity}\nPreço: R$ ${price}`);
 
     setName('');
-    setAmount('');
+    setQuantity('');
     setPrice('');
     navigation.goBack();
   };
@@ -34,8 +40,8 @@ export default function AddProductScreen({ navigation }) {
       <TextInput
         style={styles.input}
         placeholder="Quantidade"
-        value={amount}
-        onChangeText={setAmount}
+        value={quantity}
+        onChangeText={setQuantity}
         keyboardType="numeric"
       />
 

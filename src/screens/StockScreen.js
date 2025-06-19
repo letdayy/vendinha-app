@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function StorageScreen({ navigation }) {
+export default function StockScreen({ navigation }) {
   const [products, setProducts] = useState([
     { id: '1', name: 'Arroz 5kg', amount: 10, price: 25.90 },
     { id: '2', name: 'Feijão 1kg', amount: 15, price: 7.50 },
@@ -26,7 +26,7 @@ export default function StorageScreen({ navigation }) {
         renderItem={renderItem}
       />
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Adicionar Produto')}>
-        <Text style={styles.textButton} >➕ Adicionar Produto</Text>
+        <Text style={styles.buttonText} >➕ Adicionar Produto</Text>
       </TouchableOpacity>
     </View>
   );
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 30,
   },
-  textButton: {
+  buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
