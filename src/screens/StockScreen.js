@@ -1,23 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function StockScreen({ navigation, route }) {
-  const [products, setProducts] = useState([
-    { id: '1', name: 'Arroz 5kg', quantity: 10, price: 25.90 },
-    { id: '2', name: 'Feijão 1kg', quantity: 15, price: 7.50 },
-    { id: '3', name: 'Óleo 900ml', quantity: 8, price: 9.99 },
-    { id: '4', name: 'Açúcar 1kg', quantity: 20, price: 4.20 },
-  ]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    if (route.params?.newProduct) {
-      const newProduct = route.params.newProduct;
-      setProducts((prevProducts) => [
-        ...prevProducts,
-        { ...newProduct, id: (prevProducts.length + 1).toString() },
-      ]);
-    }
+    loadProducts();
+  }, []);
+
+  useEffect(() => {
+    const addNewProduct = async () => {
+      if (route.params?.newProduct) {
+        try {
+          const storedProducts = await AsyncStorage.getItem('products');
+          const existingProducts = storedProducts ? JSON.parse(storedProducts) : [];
+  
+          const newProduct = {
+            ...route.params.newProduct,
+            id: Date.now().toString(),
+          };
+  
+          const updatedProducts = [...existingProducts, newProduct];
+          setProducts(updatedProducts);
+          saveProducts(updatedProducts);
+        } catch (error) {
+          console.log('Erro ao adicionar produto:', error);
+        }
+      }
+    };
+  
+    addNewProduct();
   }, [route.params?.newProduct]);
+  
+
+  const loadProducts = async () => {
+    try {
+      const storedProducts = await AsyncStorage.getItem('products');
+      if (storedProducts) {
+        setProducts(JSON.parse(storedProducts));
+      }
+    } catch (error) {
+      console.log('Erro ao carregar produtos:', error);
+    }
+  };
+
+  const saveProducts = async (productToSave) => {
+    try {
+      await AsyncStorage.setItem('products', JSON.stringify(productToSave));
+    } catch (error) {
+      console.log('Erro ao salvar produtos', error);
+    }
+  };
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
