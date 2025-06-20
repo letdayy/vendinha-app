@@ -10,7 +10,7 @@ O **Vendinha App** permite que donos de pequenos comércios acompanhem o estoque
 
 ## 📸 Screenshots
 
-| **Tela Inicial** | **Editar Produto** | **Adicionar Produto** | **Alerta Recebido** | 
+| **Tela Inicial** | **Adicionar Produto** | **Editar Produto** | **Alerta Recebido** | 
 |:---:|:---:|:---:|:---:|
 | ![Tela Inicial](https://github.com/user-attachments/assets/63f77f7f-e8e6-4327-b36b-d3490ef23b81) | ![Editar Produto](https://github.com/user-attachments/assets/c0f0e088-13b9-49fe-b669-ffd5fd9dcca0) | ![Adicionar Produto](https://github.com/user-attachments/assets/11a984a9-ff57-495e-b809-0e224e14c63d) | ![Alerta Recebido](https://github.com/user-attachments/assets/594a2769-b0ec-4eb3-b7bf-24b9429a2ebd) |
 
